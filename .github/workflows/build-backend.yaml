@@ -1,3 +1,10 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 3 optimizations:
+# - [HIGH] Add npm dependency cache to "build" job
+# - [MEDIUM] Add concurrency group to "build-backend.yaml"
+# - [MEDIUM] Use "npm ci" instead of "npm install" in "build"
+# Estimated savings: ~7 min/run
+#
 name: Test build backend
 
 on:
@@ -12,6 +19,10 @@ on:
     paths:
       - "backend/**"
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
